@@ -20,7 +20,7 @@ while (true)
     if eventData
         ParseClient.sendEvent(eventData)
         puts eventData
-    else
+    end
   else
     sleep 0.1
   end
