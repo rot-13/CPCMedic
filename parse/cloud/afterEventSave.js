@@ -2,6 +2,17 @@
 var CurrentPlayer = Parse.Object.extend('CurrentPlayer');
 var UserUtils = require('cloud/user_utils.js');
 
+function makeSlackNotification(msg) {
+	return Parse.config.get().then(function(config) {
+		var slackToken = config.escape('slack_token');
+		return Parse.Cloud.httpRequest({ url: 'https://slack.com/api/chat.postMessage?token=' + slackToken +
+			'&channel=tlv-engineering&text=' + encodeURIComponent(msg) +
+			'&username=TFBot&link_names=1&icon_url=http%3A%2F%2Fi.imgur.com%2FWBPiOlw.png%3F1&pretty=1'});
+	})
+
+
+}
+
 // parsed[:type] = type
 // parsed[:timestamp] = timestamp
 // parsed[:nick] = result[3]
@@ -53,6 +64,8 @@ function handleEnteredGame(eventData) {
 	}).then(function(newPlayer) {
 		newPlayer.set('name', eventData.nick);
 		return newPlayer.save();
+	}).then(function() {
+		return makeSlackNotification(eventData.nick + ' has joined the game!');
 	});
 }
 
@@ -73,11 +86,16 @@ function handleLeftGame(eventData) {
 Parse.Cloud.afterSave("Event", function(request) {
 	Parse.Cloud.useMasterKey();
 	var eventObj = request.object;
+	var handler = null;
 	switch (eventObj.get('name')) {
-		case 'moved_team':   handleMoveTeam(eventObj.get('eventData')); break;
-		case 'entered_game': handleEnteredGame(eventObj.get('eventData')); break;
-		case 'left_game':    handleLeftGame(eventObj.get('eventData')); break;
+		case 'moved_team':   handler = handleMoveTeam; break;
+		case 'entered_game': handler = handleEnteredGame; break;
+		case 'left_game':    handler = handleLeftGame; break;
 	}
+	return handler(eventObj.get('eventData')).then(function() {
+    }, function(err){
+		throw "Got an error " + error.code + " : " + error.message;
+    });
 });
 
 module.exports.handleEnteredGame = handleEnteredGame;
