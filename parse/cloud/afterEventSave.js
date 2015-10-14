@@ -10,7 +10,16 @@ var UserUtils = require('cloud/user_utils.js');
 // parsed[:target_team] = result[6]
 
 function handleMoveTeam(eventData) {
-
+	return UserUtils.findBySteamId(eventData.player_id).then(function (user) {
+		if (user) {
+			var query = new Parse.Query(CurrentPlayer);
+			query.equalTo("user", user);
+			return query.first().then(function(currentPlayer) {
+				currentPlayer.set('team', eventData.target_team.toLowerCase());
+				return currentPlayer.save();
+			});
+		}
+	});
 }
 
 // parsed[:type] = type
@@ -73,3 +82,4 @@ Parse.Cloud.afterSave("Event", function(request) {
 
 module.exports.handleEnteredGame = handleEnteredGame;
 module.exports.handleLeftGame = handleLeftGame;
+module.exports.handleMoveTeam = handleMoveTeam;
