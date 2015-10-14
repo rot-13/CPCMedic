@@ -3,7 +3,7 @@ var CurrentPlayer = Parse.Object.extend('CurrentPlayer');
 var UserUtils = require('cloud/user_utils.js');
 
 function makeSlackNotification(msg) {
-	return Parse.config.get().then(function(config) {
+	return Parse.Config.get().then(function(config) {
 		var slackToken = config.escape('slack_token');
 		return Parse.Cloud.httpRequest({ url: 'https://slack.com/api/chat.postMessage?token=' + slackToken +
 			'&channel=tlv-engineering&text=' + encodeURIComponent(msg) +

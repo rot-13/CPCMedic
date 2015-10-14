@@ -6,10 +6,14 @@ var eventSave = require('cloud/afterEventSave.js');
 Parse.Cloud.define("hello", function(request, response) {
     Parse.Cloud.useMasterKey();
 
-    eventSave.handleMoveTeam({
-        nick: 'giladgo2',
-        player_id: '123456',
-        target_team: 'Red'
+    eventSave.handleEnteredGame({
+        nick: 'giladgo',
+        player_id: '123456'
+    }).then(function() {
+        return eventSave.handleLeftGame({
+            nick: 'giladgo',
+            player_id: '123456'
+        });
     }).then(function() {
         response.success("Great");
     }, function(err){
