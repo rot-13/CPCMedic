@@ -1,7 +1,18 @@
-require('cloud/afterEventSave.js');
+var eventSave = require('cloud/afterEventSave.js');
+
 
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
 Parse.Cloud.define("hello", function(request, response) {
-  response.success("Hello world!");
+    Parse.Cloud.useMasterKey();
+
+    eventSave.handleLeftGame({
+        nick: 'giladgo2',
+        player_id: '123456'
+    }).then(function() {
+        response.success("Great");
+    }, function(err){
+        response.error(JSON.stringify(err));
+    });
+
 });
