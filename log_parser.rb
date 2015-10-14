@@ -7,11 +7,11 @@ class LogParser
     round_win: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): World triggered "Round_Win" \(winner "([^"]+)"\)/,
     round_length: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): World triggered "Round_Length" \(seconds "([^"]+)"\)/,
     map: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): Started map "([^"]+)"/,
-    entered_game: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<.><\[U:.:(\d+)\]><>" entered the game/,
-    left_game: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<.><\[U:.:(\d+)\]><>" disconnected/,
-    moved_team: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<.><\[U:.:(\d+)\]><([^>]*)>" joined team "([^"]+)"/,
-    change_role: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<.><\[U:.:(\d+)\]><([^>]+)>" changed role to "([^"]+)"/,
-    kill: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<.><\[U:.:(\d+)\]><([^>]+)>" killed "([^<]+)<.><\[U:.:(\d+)\]><([^>]+)>" with "([^"]+)"/
+    entered_game: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<\d+><\[U:.:(\d+)\]><[^>]*>" entered the game/,
+    left_game: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<\d+><\[U:.:(\d+)\]>[^>]*>" disconnected/,
+    moved_team: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<\d+><\[U:.:(\d+)\]><([^>]*)>" joined team "([^"]+)"/,
+    change_role: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<\d+><\[U:.:(\d+)\]><([^>]+)>" changed role to "([^"]+)"/,
+    kill: /L (\d\d\/\d\d\/\d\d\d\d) - (\d\d:\d\d:\d\d): "([^<]+)<\d+><\[U:.:(\d+)\]><([^>]+)>" killed "([^<]+)<.><\[U:.:(\d+)\]><([^>]+)>" with "([^"]+)"/
   }
 
   def self.parse_line(line)

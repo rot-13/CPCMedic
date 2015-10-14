@@ -17,8 +17,10 @@ while (true)
   line = f.gets
   if (line)
     eventData = LogParser.parse_line(line)
-    ParseClient.sendEvent(eventData)
-    puts eventData
+    if eventData
+        ParseClient.sendEvent(eventData)
+        puts eventData
+    else
   else
     sleep 0.1
   end
