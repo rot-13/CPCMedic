@@ -1,0 +1,110 @@
+@font-face {
+    font-family: team-fortress;
+    src: url('/TF2.ttf');
+}
+
+@font-face {
+    font-family: team-fortress-secondary;
+    src: url('/TF2secondary.ttf');
+}
+
+body {
+	background-color: #2a2725;
+	color: white;
+	font-family: sans-serif;
+	margin: 0;
+}
+
+h1 {
+	margin-left: 10px;
+	font-family: team-fortress-secondary;
+}
+
+.spectators {
+	font-family: team-fortress-secondary;
+	margin-bottom: 15px;
+	margin-left: 10px;
+	font-size: 20px;
+}
+
+.team {
+	vertical-align: top;
+	display: inline-block;
+	width: 50%;
+	min-width: 300px;
+	box-sizing: border-box;
+}
+
+.team h2 {
+	font-size: 50px;
+	font-family: team-fortress-secondary;
+	padding: 8px 16px 5px;
+	margin: 0;
+}
+
+.team.red h2 {
+	background-color: #bd3b3b;
+	border-right: solid 1px #c1a18a;
+}
+
+.team.blu h2 {
+	border-left: solid 1px #c1a18a;
+	background-color: #5b7a8c;
+}
+
+.team.blu .team-content {
+	border-left: solid 1px #c1a18a;
+}
+
+.team.red .team-content {
+	border-right: solid 1px #c1a18a;
+}
+
+.team ul {
+	margin: 0;
+	padding: 0;
+}
+
+.team ul li {
+	list-style: none;
+	vertical-align: top;
+	border-bottom: solid 1px #c1a18a;
+	font-family: team-fortress-secondary;
+	padding: 12px 13px 7px;
+	background-color: #3c352e;
+	box-sizing: border-box;
+	font-size: 30px;
+}
+
+.empty {
+	font-family: team-fortress-secondary;
+	font-size: 30px;
+	color: white;
+}
+
+@media (max-width: 600px) {
+	.team {
+		max-width: none;
+		width: 100%;
+	}
+	.team ul {
+		min-height: auto;
+	}
+
+	.team.red h2 {
+		border-right: none;
+	}
+
+	.team.blu h2 {
+		border-left: none;
+	}
+
+	.team.blu .team-content {
+		border-left: none;
+	}
+
+	.team.red .team-content {
+		border-right: none;
+	}
+
+}

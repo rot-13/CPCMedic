@@ -5,12 +5,11 @@ var UserUtils = require('cloud/user_utils.js');
 function makeSlackNotification(msg) {
 	return Parse.Config.get().then(function(config) {
 		var slackToken = config.escape('slack_token');
+		var slackChannel = config.escape('slack_channel');
 		return Parse.Cloud.httpRequest({ url: 'https://slack.com/api/chat.postMessage?token=' + slackToken +
-			'&channel=tlv-engineering&text=' + encodeURIComponent(msg) +
+			'&channel=' + slackChannel +  '&text=' + encodeURIComponent(msg) +
 			'&username=TFBot&link_names=1&icon_url=http%3A%2F%2Fi.imgur.com%2FWBPiOlw.png%3F1&pretty=1'});
-	})
-
-
+	});
 }
 
 // parsed[:type] = type
@@ -91,6 +90,7 @@ Parse.Cloud.afterSave("Event", function(request) {
 		case 'moved_team':   handler = handleMoveTeam; break;
 		case 'entered_game': handler = handleEnteredGame; break;
 		case 'left_game':    handler = handleLeftGame; break;
+		default: handler = function() { return Parse.Promise.as(null); }; break;
 	}
 	return handler(eventObj.get('eventData')).then(function() {
     }, function(err){

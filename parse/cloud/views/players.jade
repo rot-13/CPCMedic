@@ -1,0 +1,34 @@
+doctype 5
+html
+	head
+		link(rel="stylesheet", href="/app.css")
+		title CPC Medic
+		meta(name="viewport", content="width=device-width, initial-scale=1")
+	body
+		h1 Current Players
+		.spectators Spectators: 
+			if spectators.length
+				each player in spectators
+					=player.name
+					|  
+			else
+				| None.
+		.team.red
+			h2 RED
+			.team-content
+				if redPlayers.length
+					ul
+						each player in redPlayers
+							li=player.name
+				else
+					.empty Empty
+		.team.blu	
+			h2 BLU
+			.team-content
+				if bluPlayers.length
+					ul
+						each player in bluPlayers
+							li=player.name
+				else
+					.empty Empty
+		
