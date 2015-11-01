@@ -75,28 +75,18 @@ function handleLeftGame(eventData) {
 			var query = new Parse.Query(CurrentPlayer);
 			query.equalTo("user", user);
 			return query.first().then(function(currentPlayer) {
-				return currentPlayer.destroy();
+				if (currentPlayer) {
+					return currentPlayer.destroy();
+				}
+				else {
+					return Parse.Promise.as(null);
+				}
 			});
 		}
 	});
 }
 
 
-Parse.Cloud.afterSave("Event", function(request) {
-	Parse.Cloud.useMasterKey();
-	var eventObj = request.object;
-	var handler = null;
-	switch (eventObj.get('name')) {
-		case 'moved_team':   handler = handleMoveTeam; break;
-		case 'entered_game': handler = handleEnteredGame; break;
-		case 'left_game':    handler = handleLeftGame; break;
-		default: handler = function() { return Parse.Promise.as(null); }; break;
-	}
-	return handler(eventObj.get('eventData')).then(function() {
-    }, function(err){
-		throw "Got an error " + error.code + " : " + error.message;
-    });
-});
 
 module.exports.handleEnteredGame = handleEnteredGame;
 module.exports.handleLeftGame = handleLeftGame;
